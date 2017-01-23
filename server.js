@@ -5,7 +5,9 @@ var routes = require('./app/routes/index.js');
 var mongoose = require('mongoose');
 var passport = require('passport');
 var session = require('express-session');
+var exphbs  = require('express-handlebars');
 
+var cwd = process.cwd();
 var app = express();
 require('dotenv').load();
 require('./app/config/passport')(passport);
@@ -13,9 +15,12 @@ require('./app/config/passport')(passport);
 mongoose.connect(process.env.MONGO_URI);
 mongoose.Promise = global.Promise;
 
-app.use('/controllers', express.static(process.cwd() + '/app/controllers'));
-app.use('/public', express.static(process.cwd() + '/public'));
-app.use('/common', express.static(process.cwd() + '/app/common'));
+app.engine('handlebars', exphbs({defaultLayout: 'main'}));
+app.set('view engine', 'handlebars');
+
+app.use('/controllers', express.static(cwd + '/app/controllers'));
+app.use('/public', express.static(cwd + '/public'));
+app.use('/common', express.static(cwd + '/app/common'));
 
 app.use(session({
 	secret: 'secretClementine',
