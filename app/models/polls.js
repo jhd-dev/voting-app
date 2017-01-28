@@ -6,11 +6,10 @@ var Poll = new mongoose.Schema({
     author: String,
     title: String,
     date: String,
-    votes: [{
-        voter: String,
-        vote: String
-    }],
-    choices: [String]
+    choices: [{
+        choice: String,
+        votes: [String]
+    }]
 });
 
 module.exports = mongoose.model('Poll', Poll);

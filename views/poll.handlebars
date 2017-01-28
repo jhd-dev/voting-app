@@ -1,0 +1,10 @@
+<form id="poll" :action="voteUrl" method="POST"><!-- uses vue.js --> 
+    <div id="choices" v-for="choice in choices">
+        <input class="choice" type="radio" name="choice" :value="choice.choice" />${choice.choice}<br />
+    </div>
+    {{#if user.github.id}}
+    <input class="choice other-btn" type="radio" name="choice" value="other" />Other: <input class="other-text" type="text" name="other" />
+    {{/if}}
+    <input id="submit-choice" type="submit" value="Submit" />
+</form>
+<div id="chart"></div>

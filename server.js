@@ -15,12 +15,15 @@ require('./app/config/passport')(passport);
 mongoose.connect(process.env.MONGO_URI);
 mongoose.Promise = global.Promise;
 
-app.engine('handlebars', exphbs({defaultLayout: 'main'}));
+app.engine('handlebars', exphbs({
+	defaultLayout: 'main'
+}));
 app.set('view engine', 'handlebars');
 
 app.use('/controllers', express.static(cwd + '/app/controllers'));
 app.use('/public', express.static(cwd + '/public'));
 app.use('/common', express.static(cwd + '/app/common'));
+app.use('/views', express.static(cwd + '/views'));
 
 app.use(session({
 	secret: 'secretClementine',

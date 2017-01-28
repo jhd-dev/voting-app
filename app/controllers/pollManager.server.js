@@ -9,7 +9,7 @@ function PollManager() {
         Polls.find({}, {"_id": false})
             .exec(function(err, polls){
                 if (err) throw err;
-                console.log(polls, polls.length);
+                //console.log(polls, polls.length);
                 res.json({
                     polls: polls
                 });
@@ -26,14 +26,30 @@ function PollManager() {
             });
     };
     
+    this.getPoll = function(req, res){
+        Polls.findOne({
+            "_id": req.params.id
+        })
+            .exec(function(err, poll){
+                if (err) throw err;
+                res.json(poll);
+            });
+    };
+    
     this.createPoll = function(req, res){
         var poll = new Polls({
             author: req.user.github.id,
             title: req.body.title,
             date: new Date().toString(),
-            votes: [],
-            choices: req.body.choices.split('\n')
+            choices: req.body.choices.split('\n').map(function(choice){
+                return {
+                    choice: choice,
+                    votes: []
+                };
+            })
         });
+        console.log(poll.choices);
+        
         poll.save(function(err, result){
             if (err) throw err;
             console.log("hi");
@@ -47,28 +63,41 @@ function PollManager() {
     };
     
     this.setVote = function(req, res){
-        var voter = req.user? req.user.github.id: req.headers['x-forwarded-for']
+        var chosen = req.body.choice.replace('\n', '');
+        var voter = req.user ? req.user.github.id : req.headers['x-forwarded-for']
             || req.connection.remoteAddress 
             || req.socket.remoteAddress 
             || req.connection.socket.remoteAddress 
             || req.ip;
+        
         Polls.findOne({'_id': req.params.id})
             .exec(function(err, poll){
                 if (err) throw err;
-                for (var i in poll.votes){
-                    if (poll.votes[i].voter === voter){
-                        poll.votes = poll.votes.splice(i, 1);
-                        break;
+                console.log("poll found: \n");
+                poll.choices.forEach(function(choice, i){
+                    for (var j in choice.votes){
+                        if (choice.votes[j] === voter){
+                            choice.votes[j] = choice.votes.splice(j, 1);
+                            return;
+                        }
                     }
-                }
-                poll.votes.push({
-                    voter: voter,
-                    vote: req.body.choice
                 });
-                if (poll.choices.indexOf(req.body.choice) === -1 && req.user){
-                    poll.choices.push(req.body.choice);
+                console.log(chosen);
+                console.log(poll.choices);
+                if (poll.choices.every(function(choice){
+                    return choice.choice !== chosen;
+                }) && req.user){
+                    poll.choices.push({
+                        choice: chosen,
+                        votes: [voter]
+                    });
+                }else{
+                    poll.choices.filter(function(choice){
+                        console.log(choice, chosen);
+                        return choice.choice === chosen.replace('\n', '');
+                    })[0].votes.push(voter);
                 }
-                poll.save.then(function(err, result){
+                poll.save(function(err, result){
                     if (err) throw err;
                     res.redirect(req.url);
                 });
