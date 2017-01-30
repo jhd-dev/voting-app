@@ -52,10 +52,10 @@ function PollManager() {
         
         poll.save(function(err, result){
             if (err) throw err;
-            console.log("hi");
+            //console.log("hi");
             res.redirect('/poll/' + poll._id);
         });
-        console.log("doneish");
+        //console.log("doneish");
     };
     
     this.deletePoll = function(req, res){
@@ -73,17 +73,18 @@ function PollManager() {
         Polls.findOne({'_id': req.params.id})
             .exec(function(err, poll){
                 if (err) throw err;
-                console.log("poll found: \n");
+                //console.log("poll found: \n");
                 poll.choices.forEach(function(choice, i){
                     for (var j in choice.votes){
-                        if (choice.votes[j] === voter){
-                            choice.votes[j] = choice.votes.splice(j, 1);
+                        console.log(choice.votes[j], voter)
+                        if (choice.votes[j] == voter){
+                            choice.votes = choice.votes.splice(j, 1);
                             return;
                         }
                     }
                 });
-                console.log(chosen);
-                console.log(poll.choices);
+                //console.log(chosen);
+                //console.log(poll.choices);
                 if (poll.choices.every(function(choice){
                     return choice.choice !== chosen;
                 }) && req.user){
@@ -93,8 +94,8 @@ function PollManager() {
                     });
                 }else{
                     poll.choices.filter(function(choice){
-                        console.log(choice, chosen);
-                        return choice.choice === chosen.replace('\n', '');
+                        console.log(choice.choice, chosen);
+                        return choice.choice === chosen;
                     })[0].votes.push(voter);
                 }
                 poll.save(function(err, result){
