@@ -1,3 +1,4 @@
+'use strict';
 //Uses Google Charts
 
 (function(){
@@ -28,19 +29,6 @@
                 };
             }
             
-            /*submitBtn.disabled = true;
-            poll.choices.forEach(function(choice){
-                var selectable = document.createElement('input');
-                    selectable.classList.add("choice");
-                    selectable.type = "radio";
-                    selectable.name = "choice";
-                    selectable.value = choice.choice;
-                    selectable.onclick = function(){
-                        submitBtn.disabled = false;
-                    };
-                choicesCont.appendChild(selectable);
-            });*/
-            
             // Load the Visualization API and the corechart package.
             google.charts.load('current', {'packages':['corechart']});
             
@@ -57,7 +45,7 @@
                 data.addColumn('string', 'Choice');
                 data.addColumn('number', 'Votes');
                 data.addRows(poll.choices.map(function(choice){
-                    console.log(choice);
+                    //console.log(choice);
                     return [choice.choice, choice.votes.length];//choice.votes.length];
                 }));
                 

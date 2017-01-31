@@ -41,7 +41,7 @@ function PollManager() {
             author: req.user.github.id,
             title: req.body.title,
             date: new Date().toString(),
-            choices: req.body.choices.split('\n').map(function(choice){
+            choices: req.body.choices.replace('\r', '').split('\n').map(function(choice){
                 return {
                     choice: choice,
                     votes: []
@@ -63,6 +63,7 @@ function PollManager() {
     };
     
     this.setVote = function(req, res){
+        console.log('-----------');
         var chosen = req.body.choice.replace('\n', '');
         var voter = req.user ? req.user.github.id : req.headers['x-forwarded-for']
             || req.connection.remoteAddress 
@@ -74,15 +75,14 @@ function PollManager() {
             .exec(function(err, poll){
                 if (err) throw err;
                 //console.log("poll found: \n");
-                poll.choices.forEach(function(choice, i){
-                    for (var j in choice.votes){
-                        console.log(choice.votes[j], voter)
-                        if (choice.votes[j] == voter){
-                            choice.votes = choice.votes.splice(j, 1);
-                            return;
+                for (var i in poll.choices){
+                    for (var j in poll.choices[i].votes){
+                        if (poll.choices[i].votes[j] == voter){
+                            poll.choices[i].votes.splice(j, 1);
+                            console.log(poll.choices[i].votes);
                         }
                     }
-                });
+                }
                 //console.log(chosen);
                 //console.log(poll.choices);
                 if (poll.choices.every(function(choice){
@@ -94,10 +94,11 @@ function PollManager() {
                     });
                 }else{
                     poll.choices.filter(function(choice){
-                        console.log(choice.choice, chosen);
+                        //console.log(choice.choice, chosen);
                         return choice.choice === chosen;
                     })[0].votes.push(voter);
                 }
+                poll.markModified('choices');
                 poll.save(function(err, result){
                     if (err) throw err;
                     res.redirect(req.url);
