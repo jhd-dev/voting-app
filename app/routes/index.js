@@ -26,11 +26,13 @@ module.exports = function (app, passport) {
 			res.render('index', {
 				title: "Voting App",
 				scripts: [
+					"https://unpkg.com/vue/dist/vue.js",
 					"common/ajax-functions.js",
 					//"controllers/clickController.client.js",
-					"controllers/userController.client.js"
+					//"controllers/userController.client.js",
+					"controllers/listPolls.client.js"
 				],
-				user: req.user || {}
+				user: req.user
 			});
 		});
 
@@ -50,12 +52,15 @@ module.exports = function (app, passport) {
 
 	app.route('/profile')
 		.get(isLoggedIn(), function (req, res) {
-			res.sendFile(path + '/public/profile.html');
+			res.redirect('/user/' + req.user.github.id);
 		});
 	
 	app.route('/new')
 		.get(isLoggedIn(), function(req, res){
-			res.sendFile(path + '/public/new.html');
+			res.render('new', {
+				title: "New Poll",
+				scripts: []
+			});
 		});
 	
 	app.route('/submit')
@@ -63,6 +68,18 @@ module.exports = function (app, passport) {
 			res.redirect('/new');
 		})
 		.post(isLoggedIn(), bodyParser.json(), bodyParser.urlencoded({ extended: true }), pollManager.createPoll);
+	
+	app.route('/user/:id')
+		.get(function(req, res){
+			res.render('user', {
+				title: 'User',
+				scripts: [
+					"https://unpkg.com/vue/dist/vue.js",
+					"/common/ajax-functions.js",
+					"/controllers/listPolls.client.js"
+				]
+			});
+		});
 	
 	app.route('/poll/:id')
 		.get(function(req, res){
@@ -73,18 +90,20 @@ module.exports = function (app, passport) {
 					"https://unpkg.com/vue/dist/vue.js",
 					"https://www.gstatic.com/charts/loader.js",
 					"/controllers/pollViewer.client.js"
-				]
+				],
+				user: req.user
 			});
 		})
 		.post(bodyParser.json(), bodyParser.urlencoded({ extended: true }), pollManager.setVote);
+	
+	app.route('/api')
+		.get(pollManager.getPolls);
 	
 	app.route('/api/poll/:id')
 		.get(pollManager.getPoll);
 	
 	app.route('/api/user/:id')
-		.get(isLoggedIn(), function (req, res) {
-			res.json(req.user.github);
-		});
+		.get(pollManager.getUserPolls);
 
 	app.route('/auth/github')
 		.get(passport.authenticate('github'));

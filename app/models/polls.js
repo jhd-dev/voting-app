@@ -3,7 +3,11 @@
 var mongoose = require("mongoose");
 
 var Poll = new mongoose.Schema({
-    author: String,
+    author: {
+        id: String,
+		displayName: String,
+		username: String
+    },
     title: String,
     date: String,
     choices: [{

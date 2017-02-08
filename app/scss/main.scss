@@ -1,0 +1,97 @@
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Roboto'), local('Roboto-Regular'), url('../fonts/Roboto-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 500;
+  src: local('Roboto Medium'), local('Roboto-Medium'), url('../fonts/Roboto-Medium.ttf') format('truetype');
+}
+
+$roboto: 'Roboto', sans-serif;
+
+$off_white: #eee;
+$fresh_teal: #34cacc;
+$dark_navy: #001c30;
+
+$body_bg: $off_white;
+$body_font: $roboto;
+
+$head_main_size: 36px;
+
+$menubar_padding: 8px;
+$menubar_bg: $fresh_teal;
+$menubar_color: $off_white;
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: $roboto;
+}
+
+#wrapper {
+    width: 100%;
+    min-height: 100vh;
+    text-align: center;
+    background-color: $body_bg;
+    * {
+        text-align: left;
+    }
+}
+
+a {
+    color: inherit;
+    text-decoration: inherit;
+    &:hover {
+        text-decoration: underline;
+    }
+}
+
+.head-main {
+    font-size: $head_main_size;
+}
+
+#menubar {
+    box-sizing: border-box;
+    position: fixed;
+    width: 100vw;
+    padding: $menubar_padding;
+    color: $menubar_color;
+    background-color: $menubar_bg;
+    * {
+        display: inline-block;
+    }
+    .menu-group {
+        float: right;
+    }
+}
+
+#menubar-space {
+    height: 64px;
+}
+
+#polls {
+    display: inline-block;
+    min-width: 80%;
+    padding: 8px;
+}
+
+.poll {
+    margin: 8px;
+    padding: 8px;
+    border-radius: 4px;
+    background-color: #ccc;
+    &:nth-child(even) {
+        background-color: #ddd;
+    }
+    .poll-title {
+        font-weight: 500;
+    }
+}

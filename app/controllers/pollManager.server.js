@@ -1,15 +1,15 @@
 'use strict';
 
 var Polls = require("../models/polls.js");
+var Users = require("../models/users.js");
 
 function PollManager() {
     
     this.getPolls = function(req, res){
         console.log("get polls!");
-        Polls.find({}, {"_id": false})
+        Polls.find({})
             .exec(function(err, polls){
                 if (err) throw err;
-                //console.log(polls, polls.length);
                 res.json({
                     polls: polls
                 });
@@ -18,11 +18,20 @@ function PollManager() {
     
     this.getUserPolls = function(req, res){
         Polls.find({
-            author: req.params.user
-        }, {"_id": false})
+            "author.id": req.params.id
+        })
             .exec(function(err, polls){
                 if (err) throw err;
-                res.json(polls); 
+                Users.findOne({
+                    "github.id": req.params.id
+                })
+                    .exec(function(err, user){
+                        if (err) throw err;
+                        res.json({
+                            polls: polls,
+                            user: user
+                        }); 
+                    });
             });
     };
     
@@ -38,7 +47,7 @@ function PollManager() {
     
     this.createPoll = function(req, res){
         var poll = new Polls({
-            author: req.user.github.id,
+            author: req.user.github,
             title: req.body.title,
             date: new Date().toString(),
             choices: req.body.choices.replace('\r', '').split('\n').map(function(choice){
@@ -59,17 +68,27 @@ function PollManager() {
     };
     
     this.deletePoll = function(req, res){
-        
+        Polls.findOne({
+            _id: req.params.id
+        })
+            .exec(function(err, poll){
+                if (err) throw err;
+                
+                if (req.user.github.id === poll.author.github.id){
+                    poll.remove();
+                    res.redirect('/');
+                }
+            });
     };
     
     this.setVote = function(req, res){
         console.log('-----------');
-        var chosen = req.body.choice.replace('\n', '');
-        var voter = req.user ? req.user.github.id : req.headers['x-forwarded-for']
+        var chosen = req.body.choice.replace('\n', '');console.log(chosen);
+        var voter = String(req.user ? req.user.github.id : req.headers['x-forwarded-for']
             || req.connection.remoteAddress 
             || req.socket.remoteAddress 
             || req.connection.socket.remoteAddress 
-            || req.ip;
+            || req.ip);
         
         Polls.findOne({'_id': req.params.id})
             .exec(function(err, poll){
@@ -83,18 +102,17 @@ function PollManager() {
                         }
                     }
                 }
-                //console.log(chosen);
-                //console.log(poll.choices);
-                if (poll.choices.every(function(choice){
-                    return choice.choice !== chosen;
-                }) && req.user){
-                    poll.choices.push({
-                        choice: chosen,
-                        votes: [voter]
-                    });
-                }else{
+                if (chosen === 'other' && req.user){
+                    if (poll.choices.every(function(choice){
+                        return choice !== req.body.otherText;
+                    })){
+                        poll.choices.push({
+                            choice: req.body.otherText,
+                            votes: [voter]
+                        });
+                    }
+                } else {
                     poll.choices.filter(function(choice){
-                        //console.log(choice.choice, chosen);
                         return choice.choice === chosen;
                     })[0].votes.push(voter);
                 }
@@ -104,10 +122,6 @@ function PollManager() {
                     res.redirect(req.url);
                 });
             });
-        
-    };
-    
-    this.viewPoll = function(req, res){
         
     };
     

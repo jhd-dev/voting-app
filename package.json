@@ -19,7 +19,8 @@
     "boilerplate"
   ],
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "build-css": "./bin/build-css"
   },
   "author": "Blake Johnston",
   "license": "MIT",
@@ -31,7 +32,12 @@
     "express-session": "^1.11.3",
     "handlebars": "^4.0.6",
     "mongoose": "^4.1.0",
+    "node-sass": "^4.5.0",
     "passport": "^0.3.0",
     "passport-github": "^1.0.0"
+  },
+  "devDependencies": {
+    "node-sass": "^4.5.0",
+    "nodemon": "^1.11.0"
   }
 }

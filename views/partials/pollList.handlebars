@@ -1,0 +1,8 @@
+<div id="polls">
+    <template v-for="poll in polls">
+        <div class="poll">
+            <a :href="pollUrl(poll)" class="poll-title">${poll.title}</a>
+            <span class="poll-author">by <a :href="authorUrl(poll)">${poll.author.displayName}</a></span>
+        </div>
+    </template>
+</div>

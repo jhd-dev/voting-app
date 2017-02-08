@@ -2,13 +2,14 @@
 //Uses Google Charts
 
 (function(){
-    var apiUrl = window.location.origin + '/api' + window.location.pathname;
-    var choicesCont = document.getElementById('choices');
-    var submitBtn = document.getElementById('submit-choice');
-    var chartLocation = document.getElementById('chart');
-    
     ajaxFunctions.ready(function(){
-        ajaxFunctions.ajaxRequest('GET', apiUrl, function(result){
+        //var choicesCont = document.getElementById('choices');
+        //var otherBtn = document.getElementById('other-btn');
+        //var otherText = document.getElementById('other-text');
+        var submitBtn = document.getElementById('submit-choice');
+        var chartLocation = document.getElementById('chart');
+        
+        ajaxFunctions.ajaxRequest('GET', ajaxFunctions.apiUrl, function(result){
             //console.log(result);
             var poll = JSON.parse(result);
             
@@ -16,16 +17,21 @@
                el: '#poll',
                data: {
                    choices: poll.choices,
-                   voteUrl: window.location
+                   voteUrl: window.location,
+                   chose: false
                },
                delimiters: ['${', '}']
             });
             
-            submitBtn.disabled = true;
-            var choiceBtns = document.getElementsByClassName("choice");
+            var pollTitle = document.getElementsByClassName('poll-title-head');
+            if (pollTitle[0]){
+                pollTitle[0].innerHTML = poll.title;
+            }
+            
+            var choiceBtns = document.getElementsByClassName("choice-btn");console.log(choiceBtns);
             for (let i = 0; i < choiceBtns.length; i ++){
-                choiceBtns[i].onclick = function(){
-                    submitBtn.disabled = false;
+                choiceBtns[i].onclick = function(){console.log(submitBtn, submitBtn.disabled);
+                    submitBtn.removeAttribute('disabled');
                 };
             }
             
