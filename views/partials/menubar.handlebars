@@ -2,11 +2,11 @@
 	<a href="/"><span class="head-main">Voting App</span></a>
 	<div class="menu-group">
 		{{#if user}}
-		<a class="menu" href="/profile">Profile</a>
-		<span class="divider">|</p>
-		<a class="menu" href="/logout">Logout</a>
+		<a class="menu-item" href="/new">New Poll</a>
+		<a class="menu-item" href="/profile">Profile</a>
+		<a class="menu-item" href="/logout">Logout</a>
 		{{else}}
-		<a class="menu" href="/login">Login</a>
+		<a class="menu-item" href="/login">Login</a>
 		{{/if}}
 	</div>
 </header>

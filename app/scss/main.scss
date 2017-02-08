@@ -49,9 +49,6 @@ body {
 a {
     color: inherit;
     text-decoration: inherit;
-    &:hover {
-        text-decoration: underline;
-    }
 }
 
 .head-main {
@@ -73,6 +70,20 @@ a {
     }
 }
 
+.menu-item {
+    box-sizing: border-box;
+    display: block;
+    font-size: 18px;
+    margin: 9px 16px 9px 0;
+    padding: 4px;
+    border-radius: 3px;
+    text-decoration: none;
+    &:hover {
+        color: $fresh_teal;
+        background-color: $off_white;
+    }
+}
+
 #menubar-space {
     height: 64px;
 }
@@ -90,6 +101,9 @@ a {
     background-color: #ccc;
     &:nth-child(even) {
         background-color: #ddd;
+    }
+    a:hover {
+        text-decoration: underline;
     }
     .poll-title {
         font-weight: 500;
