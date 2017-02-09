@@ -28,8 +28,6 @@ module.exports = function (app, passport) {
 				scripts: [
 					"https://unpkg.com/vue/dist/vue.js",
 					"common/ajax-functions.js",
-					//"controllers/clickController.client.js",
-					//"controllers/userController.client.js",
 					"controllers/listPolls.client.js"
 				],
 				user: req.user

@@ -37,6 +37,7 @@ a {
   width: 100vw;
   padding: 8px;
   text-align: left;
+  z-index: 10;
   color: #eee;
   background-color: #34cacc; }
   #menubar * {

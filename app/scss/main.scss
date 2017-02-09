@@ -60,6 +60,7 @@ a {
     width: 100vw;
     padding: $menubar_padding;
     text-align: left;
+    z-index: 10;
     color: $menubar_color;
     background-color: $menubar_bg;
     * {
