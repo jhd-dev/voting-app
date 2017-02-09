@@ -1,8 +1,8 @@
 {{> menubar}}
 <form id="new-poll" action="/submit" method="POST">
     <h2 class="new-head">New Poll:</h2>
-    <input type="text" name="title" placeholder="Title" /><br />
-    <textarea name="choices" placeholder="Choices
+    <input type="text" class="new-poll-input" name="title" placeholder="Title" autofocus /><br />
+    <textarea class="new-poll-input" name="choices" placeholder="Choices
 seperated by
 line breaks"></textarea><br />
     <input type="submit" value="Submit Poll" />
