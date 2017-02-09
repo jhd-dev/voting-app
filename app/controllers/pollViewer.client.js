@@ -10,8 +10,21 @@
         var chartLocation = document.getElementById('chart');
         
         ajaxFunctions.ajaxRequest('GET', ajaxFunctions.apiUrl, function(result){
-            //console.log(result);
             var poll = JSON.parse(result);
+            
+            ajaxFunctions.ajaxRequest('GET', ajaxFunctions.appUrl + '/api/user', function(userJSON){
+                var user = JSON.parse(userJSON);
+                
+                var deleteBtn = document.getElementById('delete-btn');
+                if (user.loggedIn){
+                    deleteBtn.classList.remove('hidden');
+                    deleteBtn.onclick = function(){
+                        if (confirm('Delete this poll?')){
+                            window.location = window.location + '/delete';
+                        }
+                    };
+                }
+            });
             
             var PollApp = new Vue({
                el: '#poll',
@@ -23,14 +36,14 @@
                delimiters: ['${', '}']
             });
             
-            var pollTitle = document.getElementsByClassName('poll-title-head');
-            if (pollTitle[0]){
-                pollTitle[0].innerHTML = poll.title;
+            var pollTitle = document.getElementById('poll-title');
+            if (pollTitle){
+                pollTitle.innerHTML = poll.title;
             }
             
             var choiceBtns = document.getElementsByClassName("choice-btn");console.log(choiceBtns);
             for (let i = 0; i < choiceBtns.length; i ++){
-                choiceBtns[i].onclick = function(){console.log(submitBtn, submitBtn.disabled);
+                choiceBtns[i].onclick = function(){//console.log(submitBtn, submitBtn.disabled);
                     submitBtn.removeAttribute('disabled');
                 };
             }

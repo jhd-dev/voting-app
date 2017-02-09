@@ -1,12 +1,16 @@
 {{> menubar}}
-<h2 class="poll-title-head"></h2>
-<form id="poll" :action="voteUrl" method="POST"><!-- uses vue.js --> 
-    <div class="choice" v-for="choice in choices">
-        <input class="choice-btn" type="radio" name="choice" :value="choice.choice" v-model="chose" />${choice.choice}<br />
-    </div>
-    {{#if user.github.id}}
-    <input id="other-btn" class="choice-btn" type="radio" name="choice" value="other" v-model="chose" />Other: <input id="other-text" type="text" name="otherText" /><br/>
-    {{/if}}
-    <input id="submit-choice" type="submit" value="Submit" :disabled="!chose" />
-</form>
-<div id="chart"></div>
+<h2 class="poll-title-head"><span id="poll-title"></span><span id="delete-btn" class="hidden"> &#10005;</span></h2>
+<div id="poll-wrapper">
+    <form id="poll" :action="voteUrl" method="POST"><!-- uses vue.js --> 
+        <div class="choice" v-for="choice in choices">
+            <input class="choice-btn" type="radio" name="choice" :value="choice.choice" v-model="chose" /> ${choice.choice}<br />
+        </div>
+        {{#if user.github.id}}
+        <div class="choice">
+            <input id="other-btn" class="choice-btn" type="radio" name="choice" value="other" v-model="chose" /> Other: <input id="other-text" type="text" name="otherText" /><br/>
+        </div>
+        {{/if}}
+        <input id="submit-choice" type="submit" value="Submit" :disabled="!chose" />
+    </form>
+    <div id="chart"></div>
+</div>

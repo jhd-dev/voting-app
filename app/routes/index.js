@@ -96,11 +96,25 @@ module.exports = function (app, passport) {
 		})
 		.post(bodyParser.json(), bodyParser.urlencoded({ extended: true }), pollManager.setVote);
 	
+	app.route('/poll/:id/delete')
+		.get(pollManager.deletePoll);
+	
 	app.route('/api')
 		.get(pollManager.getPolls);
 	
 	app.route('/api/poll/:id')
 		.get(pollManager.getPoll);
+	
+	app.route('/api/user')
+		.get(function (req, res) {
+			if (req.user){
+				res.redirect('/api/user/' + req.user.github.id);
+			} else {
+				res.json({
+					loggedIn: false
+				});
+			}
+		});
 	
 	app.route('/api/user/:id')
 		.get(pollManager.getUserPolls);

@@ -17,6 +17,7 @@ $roboto: 'Roboto', sans-serif;
 $off_white: #eee;
 $fresh_teal: #34cacc;
 $dark_navy: #001c30;
+$white: white;
 
 $body_bg: $off_white;
 $body_font: $roboto;
@@ -41,9 +42,6 @@ body {
     min-height: 100vh;
     text-align: center;
     background-color: $body_bg;
-    * {
-        text-align: left;
-    }
 }
 
 a {
@@ -53,6 +51,7 @@ a {
 
 .head-main {
     font-size: $head_main_size;
+    margin-left: 6px;
 }
 
 #menubar {
@@ -60,6 +59,7 @@ a {
     position: fixed;
     width: 100vw;
     padding: $menubar_padding;
+    text-align: left;
     color: $menubar_color;
     background-color: $menubar_bg;
     * {
@@ -89,6 +89,7 @@ a {
 }
 
 #polls {
+    text-align: left;
     display: inline-block;
     min-width: 80%;
     padding: 8px;
@@ -107,5 +108,91 @@ a {
     }
     .poll-title {
         font-weight: 500;
+    }
+}
+
+.login {
+}
+
+#login-btn {
+    display: inline-block;
+    margin-top: 20vh;
+    padding: 8px;
+    border-radius: 4px;
+    font-size: 20px;
+    color: $off_white;
+    background-color: $fresh_teal;
+    img {
+        margin-left: auto;
+    }
+}
+
+.poll-title-head {
+    margin: 1em;
+}
+
+#poll-wrapper {
+    width: 800px + 36px + 2px;
+    margin: 0 auto;
+}
+
+#poll {
+    box-sizing: border-box;
+    display: inline-block;
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: left;
+    background-color: $white;
+    float: left;
+    width: 400px;
+    margin-right: 36px;
+    overflow: auto;
+    .choice {
+        margin: 8px 0;
+    }
+}
+
+#chart {
+    box-sizing: border-box;
+    display: inline-block;
+    float: left;
+    border: 1px solid #ddd;
+}
+
+#user-head {
+    margin: 1em 0 4px 0;
+}
+
+#username-head {
+    margin-bottom: 10px;
+    font-weight: 400;
+    font-style: italic;
+    color: #222;
+}
+
+#new-poll {
+    display: inline-block;
+    margin-top: 24px;
+    padding: 8px;
+    text-align: left;
+    background-color: white;
+}
+
+.new-head {
+    input, textarea {
+        margin: 6px 0;
+    }
+}
+
+.hidden {
+    display: none;
+}
+
+#delete-btn {
+    color: #922;
+    opacity: 0.5;
+    cursor: pointer;
+    &:hover {
+        opacity: 0.8;
     }
 }

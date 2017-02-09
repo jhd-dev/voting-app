@@ -22,21 +22,21 @@ body {
   min-height: 100vh;
   text-align: center;
   background-color: #eee; }
-  #wrapper * {
-    text-align: left; }
 
 a {
   color: inherit;
   text-decoration: inherit; }
 
 .head-main {
-  font-size: 36px; }
+  font-size: 36px;
+  margin-left: 6px; }
 
 #menubar {
   box-sizing: border-box;
   position: fixed;
   width: 100vw;
   padding: 8px;
+  text-align: left;
   color: #eee;
   background-color: #34cacc; }
   #menubar * {
@@ -60,6 +60,7 @@ a {
   height: 64px; }
 
 #polls {
+  text-align: left;
   display: inline-block;
   min-width: 80%;
   padding: 8px; }
@@ -75,3 +76,70 @@ a {
     text-decoration: underline; }
   .poll .poll-title {
     font-weight: 500; }
+
+#login-btn {
+  display: inline-block;
+  margin-top: 20vh;
+  padding: 8px;
+  border-radius: 4px;
+  font-size: 20px;
+  color: #eee;
+  background-color: #34cacc; }
+  #login-btn img {
+    margin-left: auto; }
+
+.poll-title-head {
+  margin: 1em; }
+
+#poll-wrapper {
+  width: 838px;
+  margin: 0 auto; }
+
+#poll {
+  box-sizing: border-box;
+  display: inline-block;
+  padding: 10px;
+  border: 1px solid #ddd;
+  text-align: left;
+  background-color: white;
+  float: left;
+  width: 400px;
+  margin-right: 36px;
+  overflow: auto; }
+  #poll .choice {
+    margin: 8px 0; }
+
+#chart {
+  box-sizing: border-box;
+  display: inline-block;
+  float: left;
+  border: 1px solid #ddd; }
+
+#user-head {
+  margin: 1em 0 4px 0; }
+
+#username-head {
+  margin-bottom: 10px;
+  font-weight: 400;
+  font-style: italic;
+  color: #222; }
+
+#new-poll {
+  display: inline-block;
+  margin-top: 24px;
+  padding: 8px;
+  text-align: left;
+  background-color: white; }
+
+.new-head input, .new-head textarea {
+  margin: 6px 0; }
+
+.hidden {
+  display: none; }
+
+#delete-btn {
+  color: #922;
+  opacity: 0.5;
+  cursor: pointer; }
+  #delete-btn:hover {
+    opacity: 0.8; }

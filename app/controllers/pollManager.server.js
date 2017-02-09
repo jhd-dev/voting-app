@@ -29,7 +29,8 @@ function PollManager() {
                         if (err) throw err;
                         res.json({
                             polls: polls,
-                            user: user
+                            user: user,
+                            loggedIn: req.user.github.id === req.params.id
                         }); 
                     });
             });
@@ -73,10 +74,12 @@ function PollManager() {
         })
             .exec(function(err, poll){
                 if (err) throw err;
-                
-                if (req.user.github.id === poll.author.github.id){
+                console.log("delete");
+                if (req.user.github.id === poll.author.id){
                     poll.remove();
                     res.redirect('/');
+                }else{
+                    res.redirect('/login');
                 }
             });
     };

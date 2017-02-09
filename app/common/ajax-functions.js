@@ -2,7 +2,8 @@
 
 var appUrl = window.location.origin;
 var ajaxFunctions = {
-   apiUrl: window.location.origin + '/api' + window.location.pathname,
+   appUrl: appUrl,
+   apiUrl: appUrl + '/api' + window.location.pathname,
    ready: function ready (fn) {
       if (typeof fn !== 'function') {
          return;
